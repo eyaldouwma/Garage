@@ -2,10 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace B18_Ex03_Eyal_321149296_Daniel_311250336
+namespace Ex03.GarageLogic
 {
     public class Car : Vehicle
     {
+        private const float k_MaxTirePressure = 32f;
+        private const byte k_NumOfTires = 4;
+
+        public static byte NumOfTires
+        {
+            get
+            {
+                return k_NumOfTires;
+            }
+        }
+
+        public static float MaxTirePressure
+        {
+            get
+            {
+                return k_MaxTirePressure;
+            }
+        }
+
         public enum eCarColor
         {
             Blue,

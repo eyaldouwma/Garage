@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace B18_Ex03_Eyal_321149296_Daniel_311250336
+namespace Ex03.GarageLogic
 {
     public class Vehicle
     {

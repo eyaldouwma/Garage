@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace B18_Ex03_Eyal_321149296_Daniel_311250336
+namespace Ex03.GarageLogic
 {
-    class VehicleInGarage
+    public class VehicleInGarage
     {
         public enum eVehicleStatus
         {
@@ -17,6 +17,19 @@ namespace B18_Ex03_Eyal_321149296_Daniel_311250336
         private Vehicle m_TheVehicle;
         private readonly string r_OwnerName;
         private string m_OwnerPhoneNumber;
+
+        public string OwnerPhoneNumber
+        {
+            get
+            {
+                return m_OwnerPhoneNumber;
+            }
+
+            set
+            {
+                m_OwnerPhoneNumber = value;
+            }
+        }
 
         public VehicleInGarage(string i_OwnerName, string i_OwnerPhoneNumber, Vehicle i_TheVehicle)
         {

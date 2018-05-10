@@ -2,10 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace B18_Ex03_Eyal_321149296_Daniel_311250336
+namespace Ex03.GarageLogic
 {
     public class Motorcycle : Vehicle
     {
+        private const byte k_NumOfTires = 2;
+        private const float k_MaxTirePressure = 30f;
+
+        public static byte NumOfTires
+        {
+            get
+            {
+                return k_NumOfTires;
+            }
+        }
+
+        public static float MaxTirePressure
+        {
+            get
+            {
+                return k_MaxTirePressure;
+            }
+        }
         public enum eMotorcycleLicenseType
         {
             A,
