@@ -258,11 +258,11 @@ namespace Ex03.ConsoleUI
 
             if (userChoice == "1")
             {
-                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, engineVolume, licenseType);
+                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, cooledTrunk, trunkVolume);
             }
             else if (userChoice == "2")
             {
-                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, engineVolume, licenseType);
+                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, cooledTrunk, trunkVolume);
             }
 
             VehicleInGarage carInGarage = new VehicleInGarage(i_OwnerName, i_OwnerPhoneNumber, truck);
