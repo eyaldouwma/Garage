@@ -17,8 +17,10 @@ namespace B18_Ex03_Eyal_321149296_Daniel_311250336
         private readonly eMotorcycleLicenseType r_MotorcycleLicense;
         private readonly int r_EngineVolume;
 
-        public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType)
+        public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType ,List<Tire> i_Tires ,Powersource i_Powersource)
         {
+            m_Powersource = i_Powersource;
+            m_Tires = i_Tires;
             r_EngineVolume = i_EngineVolume;
             r_MotorcycleLicense = i_LicenseType;
         }

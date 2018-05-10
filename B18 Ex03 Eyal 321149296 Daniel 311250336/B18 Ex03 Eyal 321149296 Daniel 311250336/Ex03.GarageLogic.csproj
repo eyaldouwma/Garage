@@ -40,16 +40,15 @@
   <ItemGroup>
     <Compile Include="Car.cs" />
     <Compile Include="Battery.cs" />
-    <Compile Include="ElectricCar.cs" />
-    <Compile Include="ElectricMotorcycle.cs" />
-    <Compile Include="FueledCar.cs" />
-    <Compile Include="FueledMotorcycle.cs" />
-    <Compile Include="FuelTank.cs" />
-    <Compile Include="FuelTruck.cs" />
+    <Compile Include="Garage.cs" />
+    <Compile Include="Powersource.cs" />
+    <Compile Include="Fuel.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="Tire.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="Vehicle.cs" />
+    <Compile Include="VehicleFactory.cs" />
+    <Compile Include="VehicleInGarage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
