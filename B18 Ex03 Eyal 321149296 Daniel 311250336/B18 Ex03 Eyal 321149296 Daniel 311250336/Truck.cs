@@ -6,6 +6,22 @@ namespace Ex03.GarageLogic
 {
     public class Truck : Vehicle
     {
+        private const float k_MaxTirePressure = 28f;
+        private const byte k_NumOfTires = 12;
+        public static float MaxTirePressure
+        {
+            get
+            {
+                return k_MaxTirePressure;
+            }
+        }
+        public static byte NumOfTires
+        {
+            get
+            {
+                return k_NumOfTires;
+            }
+        }
         private bool m_CooledTrunk;
         private float m_TrunkVolume;
 

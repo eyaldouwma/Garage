@@ -217,19 +217,71 @@ namespace Ex03.ConsoleUI
             m_Garage.AddVehicleToGarage(carInGarage);
         }
 
-        private List<float> checkAndCreateAirPressureList(byte i_NumOfTires, float i_MaxAirPressure)
+        private void addTruck(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber)
+        {
+            string userChoice;
+            string modelName;
+            bool correctChoice;
+            bool cooledTrunk;
+            float trunkVolume; 
+            List<float> airPressure;
+            Vehicle truck = null;
+
+            Console.WriteLine("Please enter the model name of the truck:");
+            modelName = Console.ReadLine();
+            airPressure = checkAndCreateAirPressureList(Truck.NumOfTires, Truck.MaxTirePressure);
+
+            do
+            {
+                Console.WriteLine("Type true for cooled trunk, false else");
+                correctChoice = bool.TryParse(Console.ReadLine(), out cooledTrunk);
+                if (correctChoice == false)
+                {
+                    Console.WriteLine("Invalid input");
+                }
+            }
+            while (correctChoice == false);
+           
+            do
+            {
+                Console.WriteLine("Please enter the trunk volume:");
+                userChoice = Console.ReadLine();
+                correctChoice = float.TryParse(Console.ReadLine(), out trunkVolume);
+                if (correctChoice == false)
+                {
+                    Console.WriteLine("Invalid input");
+                }
+            }
+            while (correctChoice == false);
+
+            userChoice = checkAndChoosePowersource();
+
+            if (userChoice == "1")
+            {
+                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, engineVolume, licenseType);
+            }
+            else if (userChoice == "2")
+            {
+                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, engineVolume, licenseType);
+            }
+
+            VehicleInGarage carInGarage = new VehicleInGarage(i_OwnerName, i_OwnerPhoneNumber, truck);
+            m_Garage.AddVehicleToGarage(carInGarage);
+        }
+
+        private List<float> checkAndCreateAirPressureList(byte i_NumOfTires, float i_MaxTirePressure)
         {
             List<float> airPressure = new List<float>(i_NumOfTires);
             string airPressureToAdd;
 
-            while (airPressure.Count < Car.NumOfTires)
+            while (airPressure.Count < i_NumOfTires)
             {
                 Console.WriteLine("Please enter the air pressure of tire number {0}", airPressure.Count + 1);
                 airPressureToAdd = Console.ReadLine();
                 try
                 {
                     airPressure.Add(float.Parse(airPressureToAdd));
-                    if (airPressure[airPressure.Count] > Car.MaxCarTirePressure)
+                    if (airPressure[airPressure.Count] > i_MaxTirePressure)
                     {
                         ValueOutOfRangeException ex = new ValueOutOfRangeException();
 
