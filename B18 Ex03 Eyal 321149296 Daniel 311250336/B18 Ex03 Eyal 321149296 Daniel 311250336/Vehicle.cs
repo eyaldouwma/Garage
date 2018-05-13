@@ -61,7 +61,9 @@ namespace Ex03.GarageLogic
             else if(this.m_Powersource is Fuel)
             {
                 ((Fuel) m_Powersource).FillFuel((Fuel.eFuelType)i_ChargeData[1], (float)i_ChargeData[0]);
+                
             }
+            m_EnergyMeterPrecentage = m_Powersource.CurrentState / m_Powersource.MaxCapacity;
         }
     }
 }

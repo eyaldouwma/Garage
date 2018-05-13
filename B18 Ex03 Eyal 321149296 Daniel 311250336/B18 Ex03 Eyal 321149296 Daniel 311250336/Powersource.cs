@@ -8,6 +8,13 @@ namespace Ex03.GarageLogic
     {
         protected float m_CurrentState;
         protected readonly float r_MaxCapacity;
+        public float MaxCapacity
+        {
+            get
+            {
+                return r_MaxCapacity;
+            }
+        }
         public float CurrentState
         {
             get

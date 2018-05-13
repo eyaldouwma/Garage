@@ -38,6 +38,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine(menu);
                 userChoice = getUserInput();
+                runMenuChoice(userChoice);
             }
             while (userChoice != eUserChoice.Quit);
         }

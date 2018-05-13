@@ -43,7 +43,15 @@ namespace Ex03.GarageLogic
         }
         public void Inflate(float i_AirPressureToAdd)
         {
-
+            if (i_AirPressureToAdd + m_CurrentAirPressure > r_MaxAirPressure)
+            {
+                ValueOutOfRangeException ex = new ValueOutOfRangeException(r_MaxAirPressure - m_CurrentAirPressure, 0f);
+                throw ex;
+            }
+            else
+            {
+                m_CurrentAirPressure += i_AirPressureToAdd;
+            }
         }
     }
 }

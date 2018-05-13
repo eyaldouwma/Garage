@@ -38,11 +38,13 @@ namespace Ex03.GarageLogic
 
             if (this.m_CurrentState + i_HowMuchToFill > this.r_MaxCapacity)
             {
-                ValueOutOfRangeException valueOutOfRange = new ValueOutOfRangeException();
+                ValueOutOfRangeException valueOutOfRange = new ValueOutOfRangeException(this.r_MaxCapacity-this.m_CurrentState,0f);
                 throw valueOutOfRange;
             }
 
             this.m_CurrentState += i_HowMuchToFill;
+
+            
         }
     }
 }
