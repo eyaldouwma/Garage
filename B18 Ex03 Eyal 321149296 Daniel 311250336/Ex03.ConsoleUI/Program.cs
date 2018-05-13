@@ -11,7 +11,8 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-            
+            GarageUI UI = new GarageUI();
+            UI.Run();
         }
     }
 }

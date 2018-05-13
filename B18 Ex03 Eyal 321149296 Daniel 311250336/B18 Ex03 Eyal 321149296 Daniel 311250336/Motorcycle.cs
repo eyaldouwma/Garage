@@ -33,7 +33,21 @@ namespace Ex03.GarageLogic
         }
 
         private readonly eMotorcycleLicenseType r_MotorcycleLicense;
+        public string MotorcycleLicense
+        {
+            get
+            {
+                return Enum.GetName(typeof(eMotorcycleLicenseType), r_MotorcycleLicense);
+            }
+        }
         private readonly int r_EngineVolume;
+        public int EngineVolume
+        {
+            get
+            {
+                return r_EngineVolume;
+            }
+        }
 
         public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType ,List<Tire> i_Tires ,Powersource i_Powersource)
         {

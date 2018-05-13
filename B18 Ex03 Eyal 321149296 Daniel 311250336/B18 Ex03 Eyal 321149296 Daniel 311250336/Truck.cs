@@ -23,8 +23,28 @@ namespace Ex03.GarageLogic
             }
         }
         private bool m_CooledTrunk;
+        public string CooledTrunk
+        {
+            get
+            {
+                if (m_CooledTrunk == true)
+                {
+                    return "true";
+                }
+                else
+                {
+                    return "false";
+                }
+            }
+        }
         private float m_TrunkVolume;
-
+        public float TrunkVolume
+        {
+            get
+            {
+                return m_TrunkVolume;
+            }
+        }
         public Truck(bool i_CooledTrunk, float i_TrunkVolume, List<Tire> i_Tires, Powersource i_Powersource)
         {
             m_CooledTrunk = i_CooledTrunk;

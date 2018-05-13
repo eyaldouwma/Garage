@@ -42,8 +42,21 @@ namespace Ex03.GarageLogic
         }
         
         private readonly eCarDoors r_NumOfDoors;
+        public string NumOfDoors
+        {
+            get
+            {
+                return Enum.GetName(typeof(eCarDoors), r_NumOfDoors);
+            }
+        }
         private eCarColor m_CarColor;
-
+        public string CarColor
+        {
+            get
+            {
+                return Enum.GetName(typeof(eCarColor), m_CarColor);
+            }
+        }
         public Car(eCarColor i_CarColor, eCarDoors i_NumOfDoors ,List<Tire> i_Tires ,Powersource i_Powersource)
         {
             m_Tires = i_Tires;

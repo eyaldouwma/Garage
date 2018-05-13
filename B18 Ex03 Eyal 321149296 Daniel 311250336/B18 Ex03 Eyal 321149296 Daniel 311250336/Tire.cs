@@ -9,6 +9,10 @@ namespace Ex03.GarageLogic
         private string m_TireManufacturer;
         public string TireManufacturer
         {
+            get
+            {
+                return m_TireManufacturer;
+            }
             set
             {
                 m_TireManufacturer = value;

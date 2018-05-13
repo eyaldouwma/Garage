@@ -16,6 +16,13 @@ namespace Ex03.GarageLogic
 
         private readonly eFuelType r_FuelType;
         
+        public string FuelType
+        {
+            get
+            {
+                return Enum.GetName(typeof(eFuelType), r_FuelType);
+            }
+        }
 
         public Fuel(float i_MaxCapacity, eFuelType i_FuelType) : base(i_MaxCapacity)
         {

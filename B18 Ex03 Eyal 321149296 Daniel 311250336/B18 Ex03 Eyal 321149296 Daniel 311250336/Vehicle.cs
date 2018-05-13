@@ -12,7 +12,21 @@ namespace Ex03.GarageLogic
             Fuel
         }
         protected Powersource m_Powersource = null;
-        protected string m_ModelName;
+        public Powersource Powersource
+        {
+            get
+            {
+                return Powersource;
+            }
+        }
+        protected readonly string r_ModelName;
+        public string ModelName
+        {
+            get
+            {
+                return r_ModelName;
+            }
+        }
         protected readonly string r_LicensePlate;
         public string LicensePlate
         {
@@ -23,7 +37,13 @@ namespace Ex03.GarageLogic
         }
         protected float m_EnergyMeterPrecentage;
         protected List<Tire> m_Tires = null;
-
+        public List<Tire> Tires
+        {
+            get
+            {
+                return m_Tires;
+            }
+        }
         public void InflateTiresToMax()
         {
             foreach (Tire t in m_Tires)

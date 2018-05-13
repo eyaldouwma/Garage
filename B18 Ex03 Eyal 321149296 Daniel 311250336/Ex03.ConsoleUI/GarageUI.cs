@@ -12,7 +12,7 @@ namespace Ex03.ConsoleUI
     {
         private Garage m_Garage = new Garage();
 
-        private enum eUserChoice : byte
+        private enum eUserChoice 
         {
             AddVehicle = 1,
             PresentCarLicensePlateList,
@@ -86,14 +86,13 @@ namespace Ex03.ConsoleUI
             }
             else if (i_UserChoice == eUserChoice.ShowVehicleInformation)
             {
-
+                showVehicleInformation();
             }
         }
 
         private void addVehicle()
         {
             bool validInput = false;
-            string userInput;
             uint userChoice;
             string licensePlate;
             string ownerName;
@@ -124,7 +123,7 @@ namespace Ex03.ConsoleUI
                     {
                         validInput = Regex.IsMatch(ownerPhoneNumber, @"^\d+$");
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         Console.WriteLine("Invalid phone number");
                         validInput = false;
@@ -580,6 +579,82 @@ namespace Ex03.ConsoleUI
 
         private void showVehicleInformation()
         {
+            string licensePlate;
+            string displayInformation;
+
+            VehicleInGarage theVehicle;
+
+            Console.WriteLine("Please enter the vehicle license plate: ");
+
+            licensePlate = Console.ReadLine();
+
+            theVehicle = m_Garage.GetVehicleByLicensePlate(licensePlate);
+
+            if(theVehicle != null)
+            {
+                displayInformation = string.Format("Vehicle Information:{0}" +
+                                                   "License Plate:{1}{0}" +
+                                                   "Model Name:{2}{0}" +
+                                                   "Owner's Name:{3}{0}" +
+                                                   "Garage Status:{4}{0}"
+                                                   , Environment.NewLine,
+                                                   licensePlate,
+                                                   theVehicle.TheVehicle.ModelName,
+                                                   theVehicle.OwnerName,
+                                                   theVehicle.VehicleStatus);
+                Console.WriteLine(displayInformation);
+
+                if (theVehicle.TheVehicle.Powersource is Fuel)
+                {
+                    displayInformation = string.Format("Current Fuel stats: {1}{0}" +
+                                                       "Fuel Type: {2}{0}",
+                                                        Environment.NewLine,
+                                                        theVehicle.TheVehicle.Powersource.CurrentState,
+                                                        ((Fuel)theVehicle.TheVehicle.Powersource).FuelType);
+                }
+                else
+                {
+                    displayInformation = string.Format("Current Battery stats: {1}{0}", theVehicle.TheVehicle.Powersource.CurrentState, Environment.NewLine);
+                }
+                Console.WriteLine(displayInformation);
+                Console.WriteLine("Tire Information: ");
+                foreach (Tire tire in theVehicle.TheVehicle.Tires)
+                {
+                    displayInformation = string.Format("Model name: {1}, Air pressure: {2}{0}", Environment.NewLine, tire.TireManufacturer, tire.CurrentAirPressure);
+                    Console.WriteLine(displayInformation);
+                }
+                if (theVehicle.TheVehicle is Car)
+                {
+                    displayInformation = string.Format("Number of doors in car: {1}{0}" +
+                                                       "Car color {2}{0}",
+                                                       Environment.NewLine,
+                                                       ((Car)theVehicle.TheVehicle).NumOfDoors,
+                                                       ((Car)theVehicle.TheVehicle).CarColor);
+                    Console.WriteLine(displayInformation);
+                }
+                else if (theVehicle.TheVehicle is Motorcycle)
+                {
+                    displayInformation = string.Format("Engine Volume: {1}{0}" +
+                                                       "License Type: {2}{0}",
+                                                       Environment.NewLine,
+                                                       ((Motorcycle)theVehicle.TheVehicle).EngineVolume,
+                                                       ((Motorcycle)theVehicle.TheVehicle).LicensePlate);
+                    Console.WriteLine(displayInformation);
+                }
+                else if (theVehicle.TheVehicle is Truck)
+                {
+                    displayInformation = string.Format("Cooled Trunk: {1}{0}" +
+                                                       "Trunk Volume: {2}{0}",
+                                                       Environment.NewLine,
+                                                       ((Truck)theVehicle.TheVehicle).CooledTrunk,
+                                                       ((Truck)theVehicle.TheVehicle).TrunkVolume);
+                    Console.WriteLine(displayInformation);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Vehicle doesn't exist.");
+            }
 
         }
     }

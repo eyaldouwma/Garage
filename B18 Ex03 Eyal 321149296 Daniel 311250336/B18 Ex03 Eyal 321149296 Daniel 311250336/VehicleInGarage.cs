@@ -34,8 +34,14 @@ namespace Ex03.GarageLogic
             }
         }
         private readonly string r_OwnerName;
+        public string OwnerName
+        {
+            get
+            {
+                return r_OwnerName;
+            }
+        }
         private string m_OwnerPhoneNumber;
-
         public string OwnerPhoneNumber
         {
             get
