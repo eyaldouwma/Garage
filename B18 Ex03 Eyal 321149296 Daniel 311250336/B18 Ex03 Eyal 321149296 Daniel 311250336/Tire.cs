@@ -6,7 +6,14 @@ namespace Ex03.GarageLogic
 {
     public class Tire
     {
-        private string m_TireManufcaturer;
+        private string m_TireManufacturer;
+        public string TireManufacturer
+        {
+            set
+            {
+                m_TireManufacturer = value;
+            }
+        }
         private float m_CurrentAirPressure = 0;
         private readonly float r_MaxAirPressure;
 

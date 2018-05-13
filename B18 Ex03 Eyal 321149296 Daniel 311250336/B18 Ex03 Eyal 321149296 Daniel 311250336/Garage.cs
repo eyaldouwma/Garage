@@ -10,7 +10,22 @@ namespace Ex03.GarageLogic
 
         public void AddVehicleToGarage(VehicleInGarage i_VehicleToAdd)
         {
-            m_VehiclesInGarage.Add(i_VehicleToAdd.LicensePlate, i_VehicleToAdd);
+            m_VehiclesInGarage.Add(i_VehicleToAdd.TheVehicle.LicensePlate, i_VehicleToAdd);
+        }
+        public VehicleInGarage GetVehicleByLicensePlate(string i_LicensePlate)
+        {
+            VehicleInGarage TheVehicle = null;
+            m_VehiclesInGarage.TryGetValue(i_LicensePlate, out TheVehicle);
+
+            return TheVehicle;
+        }
+        public bool CheckIfVehicleExists(string i_LicensePlate)
+        {
+            bool exists = false;
+
+            exists = m_VehiclesInGarage.ContainsKey(i_LicensePlate);
+
+            return exists;
         }
     }
 }

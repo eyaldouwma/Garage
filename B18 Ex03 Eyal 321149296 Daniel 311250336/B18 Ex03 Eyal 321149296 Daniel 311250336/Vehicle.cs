@@ -13,7 +13,14 @@ namespace Ex03.GarageLogic
         }
         protected Powersource m_Powersource = null;
         protected string m_ModelName;
-        protected string m_LicensePlate;
+        protected readonly string r_LicensePlate;
+        public string LicensePlate
+        {
+            get
+            {
+                return r_LicensePlate;
+            }
+        }
         protected float m_EnergyMeterPrecentage;
         protected List<Tire> m_Tires = null;
     }

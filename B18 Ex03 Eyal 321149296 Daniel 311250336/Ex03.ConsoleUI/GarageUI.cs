@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -91,25 +92,98 @@ namespace Ex03.ConsoleUI
 
         private void addVehicle()
         {
+            bool validInput = false;
             string userInput;
+            uint userChoice;
             string licensePlate;
             string ownerName;
             string ownerPhoneNumber;
+            string vehicleOptions;
+
+            vehicleOptions = string.Format("Please choose the vehicle you want to enter{0}" +
+                                           "For Car press 1{0}" +
+                                           "For Motorcycle press 2{0}" +
+                                           "For Truck press 3{0}" 
+                                           , Environment.NewLine);
+            Console.WriteLine("Please enter the License Plate number: ");
+            licensePlate = Console.ReadLine();
+
+            if (m_Garage.CheckIfVehicleExists(licensePlate) == true)
+            {
+                m_Garage.GetVehicleByLicensePlate(licensePlate).VehicleStatus = VehicleInGarage.eVehicleStatus.InProgress;
+            }
+            else
+            {
+                Console.WriteLine("Please enter the owner name: ");
+                ownerName = Console.ReadLine();
+                Console.WriteLine("Please enter the owner phone number: ");
+                do
+                {
+                    ownerPhoneNumber = Console.ReadLine();
+                    try
+                    {
+                        validInput = Regex.IsMatch(ownerPhoneNumber, @"^\d+$");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Invalid phone number");
+                        validInput = false;
+                    }     
+                }
+                while (validInput == false);
+
+                Console.WriteLine(vehicleOptions);
+
+                do
+                {
+                    userInput = Console.ReadLine();
+                    validInput = uint.TryParse(userInput, out userChoice);
+                    if (validInput == false && ((userChoice > VehicleFactory.k_NumberOfSupportedVehicles) && (userChoice != 0)))
+                    {
+                        Console.WriteLine("Invalid Input");
+                        validInput = false;
+                    }
+                }
+                while (validInput == false);
+
+                if (userChoice == 1)
+                {
+                    addCar(licensePlate, ownerName, ownerPhoneNumber);
+                }
+                else if (userChoice == 2)
+                {
+                    addMotorcycle(licensePlate, ownerName, ownerPhoneNumber);
+                }
+                else if (userChoice == 3)
+                {
+                    addTruck(licensePlate, ownerName, ownerPhoneNumber);
+                }
+
+                
+            }
 
         }
 
-        private void addCar(string i_LicenePlate, string i_OwnerName, string i_OwnerPhoneNumber)
+        private void addCar(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             string userChoice;
             string modelName;
             bool correctChoice;
             Car.eCarDoors numOfDoors;
             Car.eCarColor carColor;
+            List<string> tireManufacturer = new List<string> (Car.NumOfTires);
             List<float> airPressure;
             Vehicle car = null;
 
             Console.WriteLine("Please enter the model name of the car:");
             modelName = Console.ReadLine();
+            Console.WriteLine("Please enter the names of all the tires manufacturers:");
+
+            for (int i = 0; i < Car.NumOfTires; i++)
+            {
+                tireManufacturer.Add(Console.ReadLine());
+            }
+
             airPressure = checkAndCreateAirPressureList(Car.NumOfTires, Car.MaxTirePressure);
 
             do
@@ -152,29 +226,36 @@ namespace Ex03.ConsoleUI
 
             if (userChoice == "1")
             {
-                car = VehicleFactory.CreateVehicle(i_LicenePlate, VehicleFactory.eVehicleType.ElectricCar, modelName, airPressure, carColor, numOfDoors);
+                car = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricCar, modelName, airPressure, tireManufacturer, carColor, numOfDoors);
             }
             else if (userChoice == "2")
             {
-                car = VehicleFactory.CreateVehicle(i_LicenePlate, VehicleFactory.eVehicleType.FueledCar, modelName, airPressure, carColor, numOfDoors);
+                car = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledCar, modelName, airPressure, tireManufacturer, carColor, numOfDoors);
             }
 
             VehicleInGarage carInGarage = new VehicleInGarage(i_OwnerName, i_OwnerPhoneNumber, car);
             m_Garage.AddVehicleToGarage(carInGarage);
         }
 
-        private void addMotorcycle(string i_LicenePlate, string i_OwnerName, string i_OwnerPhoneNumber)
+        private void addMotorcycle(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             string userChoice;
             string modelName;
             bool correctChoice;
             Motorcycle.eMotorcycleLicenseType licenseType;
+            List<string> tireManufacturer = new List<string>(Motorcycle.NumOfTires);
             int engineVolume;
             List<float> airPressure;
             Vehicle motorcycle = null;
 
             Console.WriteLine("Please enter the model name of the motorcycle:");
             modelName = Console.ReadLine();
+            Console.WriteLine("Please enter the names of all the tires manufacturers:");
+
+            for (int i = 0; i < Car.NumOfTires; i++)
+            {
+                tireManufacturer.Add(Console.ReadLine());
+            }
             airPressure = checkAndCreateAirPressureList(Motorcycle.NumOfTires, Motorcycle.MaxTirePressure);
 
             do
@@ -206,11 +287,11 @@ namespace Ex03.ConsoleUI
 
             if (userChoice == "1")
             {
-                motorcycle = VehicleFactory.CreateVehicle(i_LicenePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, engineVolume, licenseType);
+                motorcycle = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, tireManufacturer, engineVolume, licenseType);
             }
             else if (userChoice == "2")
             {
-                motorcycle = VehicleFactory.CreateVehicle(i_LicenePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, engineVolume, licenseType);
+                motorcycle = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, tireManufacturer, engineVolume, licenseType);
             }
 
             VehicleInGarage carInGarage = new VehicleInGarage(i_OwnerName, i_OwnerPhoneNumber, motorcycle);
@@ -223,12 +304,19 @@ namespace Ex03.ConsoleUI
             string modelName;
             bool correctChoice;
             bool cooledTrunk;
-            float trunkVolume; 
+            float trunkVolume;
+            List<string> tireManufacturer = new List<string>(Truck.NumOfTires);
             List<float> airPressure;
             Vehicle truck = null;
 
             Console.WriteLine("Please enter the model name of the truck:");
             modelName = Console.ReadLine();
+            Console.WriteLine("Please enter the names of all the tires manufacturers:");
+
+            for (int i = 0; i < Car.NumOfTires; i++)
+            {
+                tireManufacturer.Add(Console.ReadLine());
+            }
             airPressure = checkAndCreateAirPressureList(Truck.NumOfTires, Truck.MaxTirePressure);
 
             do
@@ -258,11 +346,11 @@ namespace Ex03.ConsoleUI
 
             if (userChoice == "1")
             {
-                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, cooledTrunk, trunkVolume);
+                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, tireManufacturer, cooledTrunk, trunkVolume);
             }
             else if (userChoice == "2")
             {
-                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, cooledTrunk, trunkVolume);
+                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, tireManufacturer, cooledTrunk, trunkVolume);
             }
 
             VehicleInGarage carInGarage = new VehicleInGarage(i_OwnerName, i_OwnerPhoneNumber, truck);
