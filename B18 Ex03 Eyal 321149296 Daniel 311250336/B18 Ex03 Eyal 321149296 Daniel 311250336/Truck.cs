@@ -45,7 +45,7 @@ namespace Ex03.GarageLogic
                 return m_TrunkVolume;
             }
         }
-        public Truck(bool i_CooledTrunk, float i_TrunkVolume, List<Tire> i_Tires, Powersource i_Powersource)
+        public Truck(bool i_CooledTrunk, float i_TrunkVolume, List<Tire> i_Tires, Powersource i_Powersource, string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
         {
             m_CooledTrunk = i_CooledTrunk;
             m_TrunkVolume = i_TrunkVolume;

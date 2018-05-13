@@ -6,7 +6,7 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        private Dictionary<string, VehicleInGarage> m_VehiclesInGarage = null;
+        private Dictionary<string, VehicleInGarage> m_VehiclesInGarage = new Dictionary<string, VehicleInGarage>();
 
         public void AddVehicleToGarage(VehicleInGarage i_VehicleToAdd)
         {
@@ -15,6 +15,7 @@ namespace Ex03.GarageLogic
         public VehicleInGarage GetVehicleByLicensePlate(string i_LicensePlate)
         {
             VehicleInGarage TheVehicle = null;
+
             m_VehiclesInGarage.TryGetValue(i_LicensePlate, out TheVehicle);
 
             return TheVehicle;

@@ -57,10 +57,12 @@ namespace Ex03.GarageLogic
                 return Enum.GetName(typeof(eCarColor), m_CarColor);
             }
         }
-        public Car(eCarColor i_CarColor, eCarDoors i_NumOfDoors ,List<Tire> i_Tires ,Powersource i_Powersource)
+
+        public Car(eCarColor i_CarColor, eCarDoors i_NumOfDoors , List<Tire> i_Tires , Powersource i_Powersource,
+            string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
         {
             m_Tires = i_Tires;
-            i_Powersource = m_Powersource;
+            m_Powersource = i_Powersource;
             m_CarColor = i_CarColor;
             r_NumOfDoors = i_NumOfDoors;
         }

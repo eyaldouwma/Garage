@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType ,List<Tire> i_Tires ,Powersource i_Powersource)
+        public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType ,List<Tire> i_Tires ,Powersource i_Powersource, string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
         {
             m_Powersource = i_Powersource;
             m_Tires = i_Tires;

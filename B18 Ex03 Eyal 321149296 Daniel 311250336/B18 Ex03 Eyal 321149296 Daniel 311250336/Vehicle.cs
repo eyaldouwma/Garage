@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return Powersource;
+                return m_Powersource;
             }
         }
         protected readonly string r_ModelName;
@@ -52,6 +52,11 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public Vehicle(string i_LicensePlate, string i_ModelName)
+        {
+            r_LicensePlate = i_LicensePlate;
+            r_ModelName = i_ModelName;
+        }
         public void FillPowerSource(params object[] i_ChargeData)
         {
             if (this.m_Powersource is Battery)
