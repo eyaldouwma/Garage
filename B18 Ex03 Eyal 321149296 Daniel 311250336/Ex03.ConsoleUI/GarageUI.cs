@@ -66,23 +66,23 @@ namespace Ex03.ConsoleUI
             }
             else if (i_UserChoice == eUserChoice.PresentCarLicensePlateList)
             {
-
+                presentCarLicensePlateList();
             }
             else if (i_UserChoice == eUserChoice.ChangeVehicleStatus)
             {
-
+                changeVehicleStatus();
             }
             else if (i_UserChoice == eUserChoice.InflateVehicleTires)
             {
-
+                inflateVehicleTires();
             }
             else if (i_UserChoice == eUserChoice.FillVehicleFuel)
             {
-
+                fillVehicleFuel();
             }
             else if (i_UserChoice == eUserChoice.ChargeVehicleBattery)
             {
-
+                chargeVehicleBattery();
             }
             else if (i_UserChoice == eUserChoice.ShowVehicleInformation)
             {
@@ -134,17 +134,7 @@ namespace Ex03.ConsoleUI
 
                 Console.WriteLine(vehicleOptions);
 
-                do
-                {
-                    userInput = Console.ReadLine();
-                    validInput = uint.TryParse(userInput, out userChoice);
-                    if (validInput == false && ((userChoice > VehicleFactory.k_NumberOfSupportedVehicles) && (userChoice != 0)))
-                    {
-                        Console.WriteLine("Invalid Input");
-                        validInput = false;
-                    }
-                }
-                while (validInput == false);
+                parsingValidity(out userChoice, VehicleFactory.NumberOfSupportedVehicles);
 
                 if (userChoice == 1)
                 {
@@ -406,6 +396,191 @@ namespace Ex03.ConsoleUI
             while (correctChoice == false);
 
             return userChoice;
+        }
+
+        private void presentCarLicensePlateList()
+        {
+            string userMessage;
+            uint userChoice;
+            bool v_UnFilteredResults = true;
+            List<VehicleInGarage> vehiclesToPrint = null;
+
+            userMessage = string.Format("Please choose the sorting method of the vehicles:{0}" +
+                                        "For Vehicles {1} press 1{0}" +
+                                        "For Vehicles {2} press 2{0}" +
+                                        "For Vehicles {3} press 3{0}" +
+                                        "For all the vehicles press 4", Environment.NewLine,
+                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 0),
+                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
+                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2));
+            Console.WriteLine(userMessage);
+            parsingValidity(out userChoice, 4);
+
+            if (userChoice == 1)
+            {
+                vehiclesToPrint = m_Garage.SortVehiclesByStatus(VehicleInGarage.eVehicleStatus.InProgress, !v_UnFilteredResults);
+            }
+            else if (userChoice == 2)
+            {
+                vehiclesToPrint = m_Garage.SortVehiclesByStatus(VehicleInGarage.eVehicleStatus.Fixed, !v_UnFilteredResults);
+            }
+            else if (userChoice == 3)
+            {
+                vehiclesToPrint = m_Garage.SortVehiclesByStatus(VehicleInGarage.eVehicleStatus.Paid, !v_UnFilteredResults);
+            }
+            else if (userChoice == 4)
+            {
+                vehiclesToPrint = m_Garage.SortVehiclesByStatus(VehicleInGarage.eVehicleStatus.InProgress, v_UnFilteredResults);
+            }
+
+            foreach (VehicleInGarage v in vehiclesToPrint)
+            {
+                Console.WriteLine(v.TheVehicle.LicensePlate);
+            }
+        }
+
+        private void changeVehicleStatus()
+        {
+            uint newStatus;
+            string userMessage;
+            string licensePlate;
+
+            userMessage = string.Format("Please choose the new status of the vehicle:{0}" +
+                                        "For {1} press 1{0}" +
+                                        "For {2} press 2{0}" +
+                                        "For {3} press 3{0}", Environment.NewLine,
+                Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 0),
+                Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
+                Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2));
+            Console.WriteLine("Please enter the license plate of the vehicle:");
+            licensePlate = Console.ReadLine();
+            if (m_Garage.CheckIfVehicleExists(licensePlate) == true)
+            {
+                Console.WriteLine(userMessage);
+                parsingValidity(out newStatus, 3);
+            }
+            else
+            {
+                Console.WriteLine("Vehicle doesn't exist.");
+            }
+        }
+
+        private void parsingValidity(out uint i_UserChoice, uint i_MaxValue)
+        {
+            bool validChoice;
+
+            do
+            {
+                validChoice = uint.TryParse(Console.ReadLine(), out i_UserChoice);
+                if ((validChoice == false) && ((i_UserChoice > i_MaxValue) || (i_UserChoice == 0)))
+                {
+                    Console.WriteLine("Invalid choice, please try again:");
+                    validChoice = false;
+                }
+            }
+            while (validChoice == false);
+        }
+
+        private void inflateVehicleTires()
+        {
+            string licensePlate;
+            VehicleInGarage vehicleToInflateTiresTo;
+
+            Console.WriteLine("Please enter the license plate of the vehicle:");
+            licensePlate = Console.ReadLine();
+            vehicleToInflateTiresTo = m_Garage.GetVehicleByLicensePlate(licensePlate);
+            if (vehicleToInflateTiresTo != null)
+            {
+                vehicleToInflateTiresTo.TheVehicle.InflateTiresToMax();
+            }
+            else
+            {
+                Console.WriteLine("Vehicle doesn't exist.");
+            }
+        }
+
+        private void fillVehicleFuel()
+        {
+            string licensePlate;
+            string fuelType;
+            bool validFuelType;
+            bool validFuelAmount;
+            float amountToFill;
+            VehicleInGarage vehicleToAddFuel;
+            Fuel.eFuelType fuelToFill;
+
+            Console.WriteLine("Please enter the license plate of the vehicle:");
+            licensePlate = Console.ReadLine();
+            vehicleToAddFuel = m_Garage.GetVehicleByLicensePlate(licensePlate);
+            if (vehicleToAddFuel != null)
+            {
+                Console.WriteLine("Please enter the type of fuel to fill:");
+                do
+                {
+                    fuelType = Console.ReadLine();
+                    validFuelType = Enum.IsDefined(typeof(Fuel.eFuelType), fuelType);
+                    if (validFuelType == false)
+                    {
+                        Console.WriteLine("Invalid fuel type, please try again:");
+                    }
+                }
+                while(validFuelType == false);
+
+                fuelToFill = (Fuel.eFuelType)Enum.Parse(typeof(Fuel.eFuelType), fuelType);
+                Console.WriteLine("Please enter the amount of fuel to fill");
+                do
+                {
+                    validFuelAmount = float.TryParse(Console.ReadLine(), out amountToFill);
+                    if (validFuelAmount == false)
+                    {
+                        Console.WriteLine("Invalid value, please try again:");
+                    }
+                }
+                while(validFuelAmount == false);
+
+                vehicleToAddFuel.TheVehicle.FillPowerSource(amountToFill, fuelToFill);
+            }
+            else
+            {
+                Console.WriteLine("Vehicle doesn't exist.");
+            }
+        }
+
+        private void chargeVehicleBattery()
+        {
+            string licensePlate;
+            float amountToCharge;
+            bool validChargeAmount;
+            VehicleInGarage vehicleToCharge;
+
+            Console.WriteLine("Please enter the license plate of the vehicle:");
+            licensePlate = Console.ReadLine();
+            vehicleToCharge = m_Garage.GetVehicleByLicensePlate(licensePlate);
+            if (vehicleToCharge != null)
+            {
+                Console.WriteLine("Please enter the amount of electricity to charge");
+                do
+                {
+                    validChargeAmount = float.TryParse(Console.ReadLine(), out amountToCharge);
+                    if (validChargeAmount == false)
+                    {
+                        Console.WriteLine("Invalid value, please try again:");
+                    }
+                }
+                while (validChargeAmount == false);
+
+                vehicleToCharge.TheVehicle.FillPowerSource(amountToCharge);
+            }
+            else
+            {
+                Console.WriteLine("Vehicle doesn't exist.");
+            }
+
+        }
+
+        private void showVehicleInformation()
+        {
+
         }
     }
 }

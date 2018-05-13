@@ -12,7 +12,13 @@ namespace Ex03.GarageLogic
         }
         public void ChargeBattery(float i_HowMuchToCharge)
         {
+            if (this.m_CurrentState + i_HowMuchToCharge > this.r_MaxCapacity)
+            {
+                ValueOutOfRangeException valueOutOfRange = new ValueOutOfRangeException();
+                throw valueOutOfRange;
+            }
 
+            this.m_CurrentState += i_HowMuchToCharge;
         }
 
     }

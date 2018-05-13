@@ -27,5 +27,20 @@ namespace Ex03.GarageLogic
 
             return exists;
         }
+
+        public List<VehicleInGarage> SortVehiclesByStatus(VehicleInGarage.eVehicleStatus i_VehicleStatusToPrint, bool i_PrintAll)
+        {
+            List<VehicleInGarage> vehiclesSorted = new List<VehicleInGarage>();
+
+            foreach (VehicleInGarage v  in m_VehiclesInGarage.Values)
+            {
+                if ((v.VehicleStatus == i_VehicleStatusToPrint) || (i_PrintAll == true))
+                {
+                    vehiclesSorted.Add(v);
+                }
+            }
+
+            return vehiclesSorted;
+        }
     }
 }

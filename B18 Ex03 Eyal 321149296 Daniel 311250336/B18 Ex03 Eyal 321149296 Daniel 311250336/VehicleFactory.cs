@@ -15,7 +15,16 @@ namespace Ex03.GarageLogic
             Truck
         }
 
-        public const int k_NumberOfSupportedVehicles = 3;
+        private const uint k_NumberOfSupportedVehicles = 3;
+
+        public static uint NumberOfSupportedVehicles
+        {
+            get
+            {
+                return k_NumberOfSupportedVehicles;
+            }
+        }
+
         public static Vehicle CreateVehicle(string i_LicensePlate, eVehicleType i_VehicleType, string i_ModelName, List<float> i_AirPressure, List<string> i_TireManufacturers, params object[] i_VehicleProperties)
         {
             Vehicle vehicleCreated = null;

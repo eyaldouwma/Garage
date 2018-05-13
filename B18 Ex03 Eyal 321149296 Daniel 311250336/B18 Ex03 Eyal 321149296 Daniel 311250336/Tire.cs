@@ -15,7 +15,23 @@ namespace Ex03.GarageLogic
             }
         }
         private float m_CurrentAirPressure = 0;
+
+        public float CurrentAirPressure
+        {
+            get
+            {
+                return m_CurrentAirPressure;
+            }
+        }
         private readonly float r_MaxAirPressure;
+
+        public float MaxAirPressure
+        {
+            get
+            {
+                return r_MaxAirPressure;
+            }
+        }
 
         public Tire(float i_MaxAirPressure)
         {
