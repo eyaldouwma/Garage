@@ -55,7 +55,7 @@ namespace Ex03.ConsoleUI
             while (Enum.IsDefined(typeof(eUserChoice), userInput) == false);
 
             userChoice = (eUserChoice) userInput;
-
+         
             return userChoice;
         }
 
@@ -103,11 +103,10 @@ namespace Ex03.ConsoleUI
             vehicleOptions = string.Format("Please choose the vehicle you want to enter{0}" +
                                            "For Car press 1{0}" +
                                            "For Motorcycle press 2{0}" +
-                                           "For Truck press 3{0}" 
+                                           "For Truck press 3" 
                                            , Environment.NewLine);
             Console.WriteLine("Please enter the License Plate number: ");
             licensePlate = Console.ReadLine();
-
             if (m_Garage.CheckIfVehicleExists(licensePlate) == true)
             {
                 m_Garage.GetVehicleByLicensePlate(licensePlate).VehicleStatus = VehicleInGarage.eVehicleStatus.InProgress;
@@ -133,9 +132,7 @@ namespace Ex03.ConsoleUI
                 while (validInput == false);
 
                 Console.WriteLine(vehicleOptions);
-
                 parsingValidity(out userChoice, VehicleFactory.NumberOfSupportedVehicles);
-
                 if (userChoice == 1)
                 {
                     addCar(licensePlate, ownerName, ownerPhoneNumber);
@@ -148,10 +145,8 @@ namespace Ex03.ConsoleUI
                 {
                     addTruck(licensePlate, ownerName, ownerPhoneNumber);
                 }
-
-                
             }
-
+            Console.WriteLine();
         }
 
         private void addCar(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber)
@@ -161,19 +156,14 @@ namespace Ex03.ConsoleUI
             bool correctChoice;
             Car.eCarDoors numOfDoors;
             Car.eCarColor carColor;
-            List<string> tireManufacturer = new List<string> (Car.NumOfTires);
+            List<string> tireManufacturer;
             List<float> airPressure;
             Vehicle car = null;
 
             Console.WriteLine("Please enter the model name of the car:");
             modelName = Console.ReadLine();
             Console.WriteLine("Please enter the names of all the tires manufacturers:");
-
-            for (int i = 0; i < Car.NumOfTires; i++)
-            {
-                tireManufacturer.Add(Console.ReadLine());
-            }
-
+            tireManufacturer = createTireManufacturerList(Car.NumOfTires);
             airPressure = checkAndCreateAirPressureList(Car.NumOfTires, Car.MaxTirePressure);
 
             do
@@ -233,7 +223,7 @@ namespace Ex03.ConsoleUI
             string modelName;
             bool correctChoice;
             Motorcycle.eMotorcycleLicenseType licenseType;
-            List<string> tireManufacturer = new List<string>(Motorcycle.NumOfTires);
+            List<string> tireManufacturer;
             int engineVolume;
             List<float> airPressure;
             Vehicle motorcycle = null;
@@ -242,10 +232,7 @@ namespace Ex03.ConsoleUI
             modelName = Console.ReadLine();
             Console.WriteLine("Please enter the names of all the tires manufacturers:");
 
-            for (int i = 0; i < Car.NumOfTires; i++)
-            {
-                tireManufacturer.Add(Console.ReadLine());
-            }
+            tireManufacturer = createTireManufacturerList(Motorcycle.NumOfTires);
             airPressure = checkAndCreateAirPressureList(Motorcycle.NumOfTires, Motorcycle.MaxTirePressure);
 
             do
@@ -256,7 +243,7 @@ namespace Ex03.ConsoleUI
                     Enum.GetName(typeof(Motorcycle.eMotorcycleLicenseType), 2),
                     Enum.GetName(typeof(Motorcycle.eMotorcycleLicenseType), 3));
                 userChoice = Console.ReadLine();
-                correctChoice = Enum.IsDefined(typeof(Car.eCarDoors), userChoice);
+                correctChoice = Enum.IsDefined(typeof(Motorcycle.eMotorcycleLicenseType), userChoice);
                 if (correctChoice == false)
                 {
                     Console.WriteLine("Invalid input.");
@@ -275,11 +262,11 @@ namespace Ex03.ConsoleUI
 
             userChoice = checkAndChoosePowersource();
 
-            if (userChoice == "1")
+            if (userChoice == "Battery")
             {
                 motorcycle = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, tireManufacturer, engineVolume, licenseType);
             }
-            else if (userChoice == "2")
+            else if (userChoice == "Fuel")
             {
                 motorcycle = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, tireManufacturer, engineVolume, licenseType);
             }
@@ -290,12 +277,11 @@ namespace Ex03.ConsoleUI
 
         private void addTruck(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber)
         {
-            string userChoice;
             string modelName;
             bool correctChoice;
-            bool cooledTrunk;
-            float trunkVolume;
-            List<string> tireManufacturer = new List<string>(Truck.NumOfTires);
+            bool cooledTrunk = false;
+            float trunkVolume = 0f;
+            List<string> tireManufacturer;
             List<float> airPressure;
             Vehicle truck = null;
 
@@ -303,45 +289,43 @@ namespace Ex03.ConsoleUI
             modelName = Console.ReadLine();
             Console.WriteLine("Please enter the names of all the tires manufacturers:");
 
-            for (int i = 0; i < Car.NumOfTires; i++)
-            {
-                tireManufacturer.Add(Console.ReadLine());
-            }
+            tireManufacturer = createTireManufacturerList(Truck.NumOfTires);
             airPressure = checkAndCreateAirPressureList(Truck.NumOfTires, Truck.MaxTirePressure);
 
             do
             {
                 Console.WriteLine("Type true for cooled trunk, false else");
-                correctChoice = bool.TryParse(Console.ReadLine(), out cooledTrunk);
-                if (correctChoice == false)
+                try
                 {
-                    Console.WriteLine("Invalid input");
+                    cooledTrunk = bool.Parse(Console.ReadLine());
+                    correctChoice = true;
                 }
+                catch(FormatException ex)
+                {
+                    Console.WriteLine("Please enter valid value.");
+                    correctChoice = false;
+                }
+                
             }
             while (correctChoice == false);
            
             do
             {
                 Console.WriteLine("Please enter the trunk volume:");
-                userChoice = Console.ReadLine();
-                correctChoice = float.TryParse(Console.ReadLine(), out trunkVolume);
-                if (correctChoice == false)
+                try
                 {
-                    Console.WriteLine("Invalid input");
+                    trunkVolume = float.Parse(Console.ReadLine());
+                    correctChoice = true;
+                }
+                catch(FormatException ex)
+                {
+                    correctChoice = false;
+                    Console.WriteLine("Please enter a valid value.");
                 }
             }
             while (correctChoice == false);
-
-            userChoice = checkAndChoosePowersource();
-
-            if (userChoice == "1")
-            {
-                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.ElectricMotorcycle, modelName, airPressure, tireManufacturer, cooledTrunk, trunkVolume);
-            }
-            else if (userChoice == "2")
-            {
-                truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.FueledMotorcycle, modelName, airPressure, tireManufacturer, cooledTrunk, trunkVolume);
-            }
+            
+            truck = VehicleFactory.CreateVehicle(i_LicensePlate, VehicleFactory.eVehicleType.Truck, modelName, airPressure, tireManufacturer, cooledTrunk, trunkVolume);
 
             VehicleInGarage carInGarage = new VehicleInGarage(i_OwnerName, i_OwnerPhoneNumber, truck);
             m_Garage.AddVehicleToGarage(carInGarage);
@@ -384,6 +368,18 @@ namespace Ex03.ConsoleUI
             return airPressure;
         }
 
+        private List<string> createTireManufacturerList(byte i_NumOfTires)
+        {
+            List<string> tireManufacturerList = new List<string>(i_NumOfTires);
+
+            for(int i = 0; i < i_NumOfTires; i++)
+            {
+                tireManufacturerList.Add(Console.ReadLine());
+            }
+
+            return tireManufacturerList;
+        }
+
         private string checkAndChoosePowersource()
         {
             string userChoice;
@@ -416,14 +412,13 @@ namespace Ex03.ConsoleUI
             userMessage = string.Format("Please choose the sorting method of the vehicles:{0}" +
                                         "For Vehicles {1} press 1{0}" +
                                         "For Vehicles {2} press 2{0}" +
-                                        "For Vehicles {3} press 3{0}" +
+                                        "For Vehicles {3} press 3" +
                                         "For all the vehicles press 4", Environment.NewLine,
-                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 0),
                                          Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
-                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2));
+                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2),
+                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 3));
             Console.WriteLine(userMessage);
             parsingValidity(out userChoice, 4);
-
             if (userChoice == 1)
             {
                 vehiclesToPrint = m_Garage.SortVehiclesByStatus(VehicleInGarage.eVehicleStatus.InProgress, !v_UnFilteredResults);
@@ -445,6 +440,8 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine(v.TheVehicle.LicensePlate);
             }
+
+            Console.WriteLine();
         }
 
         private void changeVehicleStatus()
@@ -457,7 +454,7 @@ namespace Ex03.ConsoleUI
             userMessage = string.Format("Please choose the new status of the vehicle:{0}" +
                                         "For {1} press 1{0}" +
                                         "For {2} press 2{0}" +
-                                        "For {3} press 3{0}", Environment.NewLine,
+                                        "For {3} press 3", Environment.NewLine,
                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2),
                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 3));
@@ -474,6 +471,8 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("Vehicle doesn't exist.");
             }
+
+            Console.WriteLine();
         }
 
         private void parsingValidity(out uint i_UserChoice, uint i_MaxValue)
@@ -508,6 +507,8 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("Vehicle doesn't exist.");
             }
+
+            Console.WriteLine();
         }
 
         private void fillVehicleFuel()
@@ -516,7 +517,7 @@ namespace Ex03.ConsoleUI
             string fuelType;
             bool validFuelType;
             bool validFuelAmount;
-            float amountToFill;
+            float amountToFill = 0f;
             VehicleInGarage vehicleToAddFuel;
             Fuel.eFuelType fuelToFill;
 
@@ -541,26 +542,44 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Please enter the amount of fuel to fill");
                 do
                 {
-                    validFuelAmount = float.TryParse(Console.ReadLine(), out amountToFill);
-                    if (validFuelAmount == false)
+                    try
                     {
-                        Console.WriteLine("Invalid value, please try again:");
+                        amountToFill = float.Parse(Console.ReadLine());
+                        validFuelAmount = true;
+                    }
+                    catch(FormatException ex)
+                    {
+                        validFuelAmount = false;
+                        Console.WriteLine("Please enter a valid number.");
                     }
                 }
                 while(validFuelAmount == false);
 
-                vehicleToAddFuel.TheVehicle.FillPowerSource(amountToFill, fuelToFill);
+                try
+                {
+                    vehicleToAddFuel.TheVehicle.FillPowerSource(amountToFill, fuelToFill);
+                }
+                catch(ValueOutOfRangeException ex)
+                {
+                    Console.WriteLine("Can't charge the battery with the current amount.");
+                }
+                catch(ArgumentException ex)
+                {
+                    Console.WriteLine("Invalid fuel type.");
+                }
             }
             else
             {
                 Console.WriteLine("Vehicle doesn't exist or doesn't use fuel.");
             }
+
+            Console.WriteLine();
         }
 
         private void chargeVehicleBattery()
         {
             string licensePlate;
-            float amountToCharge;
+            float amountToCharge = 0f;
             bool validChargeAmount;
             VehicleInGarage vehicleToCharge;
 
@@ -572,21 +591,35 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Please enter the amount of electricity to charge");
                 do
                 {
-                    validChargeAmount = float.TryParse(Console.ReadLine(), out amountToCharge);
-                    if (validChargeAmount == false)
+                    try
                     {
-                        Console.WriteLine("Invalid value, please try again:");
+                        amountToCharge = float.Parse(Console.ReadLine());
+                        validChargeAmount = true;
                     }
+                    catch(FormatException ex)
+                    {
+                        validChargeAmount = false;
+                        Console.WriteLine("Please enter a valid number.");
+                    }
+
                 }
                 while (validChargeAmount == false);
 
-                vehicleToCharge.TheVehicle.FillPowerSource(amountToCharge);
+                try
+                {
+                    vehicleToCharge.TheVehicle.FillPowerSource(amountToCharge);
+                }
+                catch(ValueOutOfRangeException ex)
+                {
+                    Console.WriteLine("Can't charge the battery with the current amount.");
+                }
             }
             else
             {
                 Console.WriteLine("Vehicle doesn't exist or doesn't use a battery.");
             }
 
+            Console.WriteLine();
         }
 
         private void showVehicleInformation()
@@ -621,7 +654,7 @@ namespace Ex03.ConsoleUI
                 }
                 else
                 {
-                    displayInformation = string.Format("Current Battery stats: {1}", theVehicle.TheVehicle.Powersource.CurrentState, Environment.NewLine);
+                    displayInformation = string.Format("Current Battery stats: {0}", theVehicle.TheVehicle.Powersource.CurrentState);
                 }
                 Console.WriteLine(displayInformation);
                 Console.WriteLine("Tire Information: ");
@@ -663,6 +696,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle doesn't exist.");
             }
 
+            Console.WriteLine();
         }
     }
 }
