@@ -8,8 +8,8 @@ namespace Ex03.GarageLogic
     {
         public Battery(float i_MaxCharge) : base(i_MaxCharge)
         {
-
         }
+
         public void ChargeBattery(float i_HowMuchToCharge)
         {
             if (this.m_CurrentState + i_HowMuchToCharge > this.r_MaxCapacity)
@@ -20,6 +20,5 @@ namespace Ex03.GarageLogic
 
             this.m_CurrentState += i_HowMuchToCharge;
         }
-
     }
 }

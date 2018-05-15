@@ -6,8 +6,9 @@ namespace Ex03.GarageLogic
 {
     public class Powersource
     {
-        protected float m_CurrentState;
         protected readonly float r_MaxCapacity;
+        protected float m_CurrentState;
+
         public float MaxCapacity
         {
             get
@@ -15,6 +16,7 @@ namespace Ex03.GarageLogic
                 return r_MaxCapacity;
             }
         }
+
         public float CurrentState
         {
             get
@@ -22,10 +24,10 @@ namespace Ex03.GarageLogic
                 return m_CurrentState;
             }
         }
+
         public Powersource(float i_MaxCapacity)
         {
             r_MaxCapacity = i_MaxCapacity;
         }
-
     }
 }

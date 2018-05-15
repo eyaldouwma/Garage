@@ -8,7 +8,7 @@ using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
-    class GarageUI
+    public class GarageUI
     {
         private Garage m_Garage = new Garage();
 
@@ -46,15 +46,29 @@ namespace Ex03.ConsoleUI
         private eUserChoice getUserInput()
         {
             eUserChoice userChoice;
-            int userInput;
+            int userInput = 0;
+            bool validInput = false;
 
             do
             {
-                int.TryParse(Console.ReadLine(), out userInput);
+                try
+                {
+                    userInput = int.Parse(Console.ReadLine());
+                    validInput = Enum.IsDefined(typeof(eUserChoice), userInput);
+                    if (validInput == false)
+                    {
+                        Console.WriteLine("Invalid Option");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid Input");
+                    validInput = false;
+                }
             }
-            while (Enum.IsDefined(typeof(eUserChoice), userInput) == false);
+            while (validInput == false);
 
-            userChoice = (eUserChoice) userInput;
+            userChoice = (eUserChoice)userInput;
          
             return userChoice;
         }
@@ -95,18 +109,28 @@ namespace Ex03.ConsoleUI
         {
             bool validInput = false;
             uint userChoice;
-            string licensePlate;
-            string ownerName;
+            string licensePlate = null;
+            string ownerName = null;
             string ownerPhoneNumber;
             string vehicleOptions;
 
-            vehicleOptions = string.Format("Please choose the vehicle you want to enter{0}" +
-                                           "For Car press 1{0}" +
-                                           "For Motorcycle press 2{0}" +
-                                           "For Truck press 3" 
-                                           , Environment.NewLine);
+            vehicleOptions = string.Format(
+                                    "Please choose the vehicle you want to enter{0}" +
+                                    "For Car press 1{0}" +
+                                    "For Motorcycle press 2{0}" +
+                                    "For Truck press 3", 
+                                    Environment.NewLine);
             Console.WriteLine("Please enter the License Plate number: ");
-            licensePlate = Console.ReadLine();
+            do
+            {
+                licensePlate = Console.ReadLine();
+                if (licensePlate == string.Empty)
+                {
+                    Console.WriteLine("Invalid Input");
+                }
+            }
+            while (licensePlate == string.Empty);
+           
             if (m_Garage.CheckIfVehicleExists(licensePlate) == true)
             {
                 m_Garage.GetVehicleByLicensePlate(licensePlate).VehicleStatus = VehicleInGarage.eVehicleStatus.InProgress;
@@ -114,7 +138,16 @@ namespace Ex03.ConsoleUI
             else
             {
                 Console.WriteLine("Please enter the owner name: ");
-                ownerName = Console.ReadLine();
+                do
+                {
+                    ownerName = Console.ReadLine();
+                    if (ownerName == string.Empty)
+                    {
+                        Console.WriteLine("Invalid Input");
+                    }
+                }
+                while (ownerName == string.Empty);
+
                 Console.WriteLine("Please enter the owner phone number: ");
                 do
                 {
@@ -122,6 +155,10 @@ namespace Ex03.ConsoleUI
                     try
                     {
                         validInput = Regex.IsMatch(ownerPhoneNumber, @"^\d+$");
+                        if (validInput == false)
+                        {
+                            Console.WriteLine("Invalid phone number");
+                        }
                     }
                     catch
                     {
@@ -146,7 +183,8 @@ namespace Ex03.ConsoleUI
                     addTruck(licensePlate, ownerName, ownerPhoneNumber);
                 }
             }
-            Console.WriteLine();
+
+            Console.WriteLine("-------------");
         }
 
         private void addCar(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber)
@@ -168,11 +206,8 @@ namespace Ex03.ConsoleUI
 
             do
             {
-                Console.WriteLine("Please choose how many doors the car has ({0}/{1}/{2}/{3}):",
-                    Enum.GetName(typeof(Car.eCarDoors), 2),
-                    Enum.GetName(typeof(Car.eCarDoors), 3),
-                    Enum.GetName(typeof(Car.eCarDoors), 4),
-                    Enum.GetName(typeof(Car.eCarDoors), 5));
+                Console.WriteLine("Please choose how many doors the car has:");
+                printEnumNames(typeof(Car.eCarDoors));
                 userChoice = Console.ReadLine();
                 correctChoice = Enum.IsDefined(typeof(Car.eCarDoors), userChoice);
                 if (correctChoice == false)
@@ -187,11 +222,8 @@ namespace Ex03.ConsoleUI
 
             do
             {
-                Console.WriteLine("Please choose the color of the car ({0}/{1}/{2}/{3}):",
-                    Enum.GetName(typeof(Car.eCarColor), 0),
-                    Enum.GetName(typeof(Car.eCarColor), 1),
-                    Enum.GetName(typeof(Car.eCarColor), 2),
-                    Enum.GetName(typeof(Car.eCarColor), 3));
+                Console.WriteLine("Please choose the color of the car:");
+                printEnumNames(typeof(Car.eCarColor));
                 userChoice = Console.ReadLine();
                 correctChoice = Enum.IsDefined(typeof(Car.eCarColor), userChoice);
                 if (correctChoice == false)
@@ -237,11 +269,8 @@ namespace Ex03.ConsoleUI
 
             do
             {
-                Console.WriteLine("Please choose the license type of the motorcycle({0}/{1}/{2}/{3}):",
-                    Enum.GetName(typeof(Motorcycle.eMotorcycleLicenseType), 0),
-                    Enum.GetName(typeof(Motorcycle.eMotorcycleLicenseType), 1),
-                    Enum.GetName(typeof(Motorcycle.eMotorcycleLicenseType), 2),
-                    Enum.GetName(typeof(Motorcycle.eMotorcycleLicenseType), 3));
+                Console.WriteLine("Please choose the license type of the motorcycle:");
+                printEnumNames(typeof(Motorcycle.eMotorcycleLicenseType));
                 userChoice = Console.ReadLine();
                 correctChoice = Enum.IsDefined(typeof(Motorcycle.eMotorcycleLicenseType), userChoice);
                 if (correctChoice == false)
@@ -300,12 +329,11 @@ namespace Ex03.ConsoleUI
                     cooledTrunk = bool.Parse(Console.ReadLine());
                     correctChoice = true;
                 }
-                catch(FormatException ex)
+                catch(FormatException)
                 {
                     Console.WriteLine("Please enter valid value.");
                     correctChoice = false;
                 }
-                
             }
             while (correctChoice == false);
            
@@ -317,7 +345,7 @@ namespace Ex03.ConsoleUI
                     trunkVolume = float.Parse(Console.ReadLine());
                     correctChoice = true;
                 }
-                catch(FormatException ex)
+                catch(FormatException)
                 {
                     correctChoice = false;
                     Console.WriteLine("Please enter a valid value.");
@@ -353,13 +381,13 @@ namespace Ex03.ConsoleUI
 
                     currentTire++;
                 }
-                catch (ValueOutOfRangeException ex)
+                catch (ValueOutOfRangeException)
                 {
                     Console.WriteLine("Invalid value.");
                     airPressure.RemoveAt(currentTire);
                     currentTire--;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Console.WriteLine("Invalid value.");
                 }
@@ -387,9 +415,8 @@ namespace Ex03.ConsoleUI
 
             do
             {
-                Console.WriteLine("Please choose your car power source{0}1.{1}{0}2.{2}", Environment.NewLine,
-                    Enum.GetName(typeof(Vehicle.ePowersource), Vehicle.ePowersource.Battery),
-                    Enum.GetName(typeof(Vehicle.ePowersource), Vehicle.ePowersource.Fuel));
+                Console.WriteLine("Please choose your car power source:");
+                printEnumNames(typeof(Vehicle.ePowersource));
                 userChoice = Console.ReadLine();
                 correctChoice = Enum.IsDefined(typeof(Vehicle.ePowersource), userChoice);
                 if (correctChoice == false)
@@ -409,16 +436,19 @@ namespace Ex03.ConsoleUI
             bool v_UnFilteredResults = true;
             List<VehicleInGarage> vehiclesToPrint = null;
 
-            userMessage = string.Format("Please choose the sorting method of the vehicles:{0}" +
-                                        "For Vehicles {1} press 1{0}" +
-                                        "For Vehicles {2} press 2{0}" +
-                                        "For Vehicles {3} press 3" +
-                                        "For all the vehicles press 4", Environment.NewLine,
-                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
-                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2),
-                                         Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 3));
+            userMessage = string.Format(
+                                 "Please choose the sorting method of the vehicles:{0}" +
+                                 "For Vehicles {1} press 1{0}" +
+                                 "For Vehicles {2} press 2{0}" +
+                                 "For Vehicles {3} press 3{0}" +
+                                 "For all the vehicles press 4", 
+                                 Environment.NewLine,
+                                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
+                                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2),
+                                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 3));
             Console.WriteLine(userMessage);
             parsingValidity(out userChoice, 4);
+            Console.WriteLine("The vehicles are:");
             if (userChoice == 1)
             {
                 vehiclesToPrint = m_Garage.SortVehiclesByStatus(VehicleInGarage.eVehicleStatus.InProgress, !v_UnFilteredResults);
@@ -441,7 +471,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine(v.TheVehicle.LicensePlate);
             }
 
-            Console.WriteLine();
+            Console.WriteLine("-------------");
         }
 
         private void changeVehicleStatus()
@@ -451,13 +481,15 @@ namespace Ex03.ConsoleUI
             string licensePlate;
             VehicleInGarage vehicleToChangeStatus;
 
-            userMessage = string.Format("Please choose the new status of the vehicle:{0}" +
-                                        "For {1} press 1{0}" +
-                                        "For {2} press 2{0}" +
-                                        "For {3} press 3", Environment.NewLine,
-                Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
-                Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2),
-                Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 3));
+            userMessage = string.Format(
+                                 "Please choose the new status of the vehicle:{0}" +
+                                 "For {1} press 1{0}" +
+                                 "For {2} press 2{0}" +
+                                 "For {3} press 3", 
+                                 Environment.NewLine,
+                                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 1),
+                                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 2),
+                                 Enum.GetName(typeof(VehicleInGarage.eVehicleStatus), 3));
             Console.WriteLine("Please enter the license plate of the vehicle:");
             licensePlate = Console.ReadLine();
             vehicleToChangeStatus = m_Garage.GetVehicleByLicensePlate(licensePlate);
@@ -472,20 +504,33 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle doesn't exist.");
             }
 
-            Console.WriteLine();
+            Console.WriteLine("-------------");
         }
 
-        private void parsingValidity(out uint i_UserChoice, uint i_MaxValue)
+        private void parsingValidity(out uint o_UserChoice, uint i_MaxValue)
         {
-            bool validChoice;
+            bool validChoice = false;
+            o_UserChoice = 0;
 
             do
             {
-                validChoice = uint.TryParse(Console.ReadLine(), out i_UserChoice);
-                if ((validChoice == false) && ((i_UserChoice > i_MaxValue) || (i_UserChoice == 0)))
+                try
                 {
-                    Console.WriteLine("Invalid choice, please try again:");
+                    o_UserChoice = uint.Parse(Console.ReadLine());
+                    if ((o_UserChoice > i_MaxValue) || (o_UserChoice == 0))
+                    {
+                        Console.WriteLine("Invalid choice, please try again:");
+                        validChoice = false;
+                    }
+                    else
+                    {
+                        validChoice = true;
+                    }
+                }
+                catch(FormatException)
+                {
                     validChoice = false;
+                    Console.WriteLine("Please enter a valid choice.");
                 }
             }
             while (validChoice == false);
@@ -508,7 +553,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle doesn't exist.");
             }
 
-            Console.WriteLine();
+            Console.WriteLine("-------------");
         }
 
         private void fillVehicleFuel()
@@ -547,7 +592,7 @@ namespace Ex03.ConsoleUI
                         amountToFill = float.Parse(Console.ReadLine());
                         validFuelAmount = true;
                     }
-                    catch(FormatException ex)
+                    catch(FormatException)
                     {
                         validFuelAmount = false;
                         Console.WriteLine("Please enter a valid number.");
@@ -559,11 +604,11 @@ namespace Ex03.ConsoleUI
                 {
                     vehicleToAddFuel.TheVehicle.FillPowerSource(amountToFill, fuelToFill);
                 }
-                catch(ValueOutOfRangeException ex)
+                catch(ValueOutOfRangeException)
                 {
-                    Console.WriteLine("Can't charge the battery with the current amount.");
+                    Console.WriteLine("Can't fill the tank with the current amount.");
                 }
-                catch(ArgumentException ex)
+                catch(ArgumentException)
                 {
                     Console.WriteLine("Invalid fuel type.");
                 }
@@ -573,7 +618,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle doesn't exist or doesn't use fuel.");
             }
 
-            Console.WriteLine();
+            Console.WriteLine("-------------");
         }
 
         private void chargeVehicleBattery()
@@ -596,12 +641,11 @@ namespace Ex03.ConsoleUI
                         amountToCharge = float.Parse(Console.ReadLine());
                         validChargeAmount = true;
                     }
-                    catch(FormatException ex)
+                    catch(FormatException)
                     {
                         validChargeAmount = false;
                         Console.WriteLine("Please enter a valid number.");
                     }
-
                 }
                 while (validChargeAmount == false);
 
@@ -609,7 +653,7 @@ namespace Ex03.ConsoleUI
                 {
                     vehicleToCharge.TheVehicle.FillPowerSource(amountToCharge);
                 }
-                catch(ValueOutOfRangeException ex)
+                catch(ValueOutOfRangeException)
                 {
                     Console.WriteLine("Can't charge the battery with the current amount.");
                 }
@@ -619,7 +663,7 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle doesn't exist or doesn't use a battery.");
             }
 
-            Console.WriteLine();
+            Console.WriteLine("-------------");
         }
 
         private void showVehicleInformation()
@@ -637,57 +681,65 @@ namespace Ex03.ConsoleUI
 
             if(theVehicle != null)
             {
-                displayInformation = string.Format("Vehicle Information:{0}License Plate:{1}{0}Model Name:{2}{0}Owner's Name:{3}{0}Garage Status:{4}"
-                                                   , Environment.NewLine,
-                                                   licensePlate,
-                                                   theVehicle.TheVehicle.ModelName,
-                                                   theVehicle.OwnerName,
-                                                   theVehicle.VehicleStatus);
+                displayInformation = string.Format(
+                                            "Vehicle Information:{0}License Plate:{1}{0}Model Name:{2}{0}Owner's Name:{3}{0}Garage Status:{4}",
+                                            Environment.NewLine,
+                                            licensePlate,
+                                            theVehicle.TheVehicle.ModelName,
+                                            theVehicle.OwnerName,
+                                            theVehicle.VehicleStatus);
                 
                 Console.WriteLine(displayInformation);
                 if (theVehicle.TheVehicle.Powersource is Fuel)
                 {
-                    displayInformation = string.Format("Current Fuel stats: {1}{0}Fuel Type: {2}",
-                                                        Environment.NewLine,
-                                                        theVehicle.TheVehicle.Powersource.CurrentState,
-                                                        ((Fuel)theVehicle.TheVehicle.Powersource).FuelType);
+                    displayInformation = string.Format(
+                                                "Current Fuel stats: {1}{0}Fuel Type: {2}",
+                                                Environment.NewLine,
+                                                theVehicle.TheVehicle.Powersource.CurrentState,
+                                                ((Fuel)theVehicle.TheVehicle.Powersource).FuelType);
                 }
                 else
                 {
                     displayInformation = string.Format("Current Battery stats: {0}", theVehicle.TheVehicle.Powersource.CurrentState);
                 }
+
                 Console.WriteLine(displayInformation);
                 Console.WriteLine("Tire Information: ");
+
                 foreach (Tire tire in theVehicle.TheVehicle.Tires)
                 {
                     displayInformation = string.Format("Model name: {1}, Air pressure: {2}", Environment.NewLine, tire.TireManufacturer, tire.CurrentAirPressure);
                     Console.WriteLine(displayInformation);
                 }
+
                 if (theVehicle.TheVehicle is Car)
                 {
-                    displayInformation = string.Format("Number of doors in car: {1}{0}" +
-                                                       "Car color {2}",
-                                                       Environment.NewLine,
-                                                       ((Car)theVehicle.TheVehicle).NumOfDoors,
-                                                       ((Car)theVehicle.TheVehicle).CarColor);
+                    displayInformation = string.Format(
+                                                "Number of doors in car: {1}{0}" +
+                                                "Car color {2}",
+                                                Environment.NewLine,
+                                                ((Car)theVehicle.TheVehicle).NumOfDoors,
+                                                ((Car)theVehicle.TheVehicle).CarColor);
                     Console.WriteLine(displayInformation);
                 }
                 else if (theVehicle.TheVehicle is Motorcycle)
                 {
-                    displayInformation = string.Format("Engine Volume: {1}{0}" +
-                                                       "License Type: {2}",
-                                                       Environment.NewLine,
-                                                       ((Motorcycle)theVehicle.TheVehicle).EngineVolume,
-                                                       ((Motorcycle)theVehicle.TheVehicle).LicensePlate);
+                    displayInformation = string.Format(
+                                                "Engine Volume: {1}{0}" +
+                                                "License Type: {2}",
+                                                Environment.NewLine,
+                                                ((Motorcycle)theVehicle.TheVehicle).EngineVolume,
+                                                ((Motorcycle)theVehicle.TheVehicle).LicensePlate);
                     Console.WriteLine(displayInformation);
                 }
                 else if (theVehicle.TheVehicle is Truck)
                 {
-                    displayInformation = string.Format("Cooled Trunk: {1}{0}" +
-                                                       "Trunk Volume: {2}",
-                                                       Environment.NewLine,
-                                                       ((Truck)theVehicle.TheVehicle).CooledTrunk,
-                                                       ((Truck)theVehicle.TheVehicle).TrunkVolume);
+                    displayInformation = string.Format(
+                                                "Cooled Trunk: {1}{0}" +
+                                                "Trunk Volume: {2}",
+                                                Environment.NewLine,
+                                                ((Truck)theVehicle.TheVehicle).CooledTrunk,
+                                                ((Truck)theVehicle.TheVehicle).TrunkVolume);
                     Console.WriteLine(displayInformation);
                 }
             }
@@ -696,7 +748,17 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine("Vehicle doesn't exist.");
             }
 
-            Console.WriteLine();
+            Console.WriteLine("-------------");
+        }
+
+        private void printEnumNames(Type i_EnumType)
+        {
+            string[] toPrint = Enum.GetNames(i_EnumType);
+
+            for(int i = 0, j = 1; i < toPrint.Length; i++, j++)
+            {
+                Console.WriteLine("{0}.{1}", j, toPrint[i]);
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ namespace Ex03.GarageLogic
     {
         private const float k_MaxTirePressure = 28f;
         private const byte k_NumOfTires = 12;
+
         public static float MaxTirePressure
         {
             get
@@ -15,6 +16,7 @@ namespace Ex03.GarageLogic
                 return k_MaxTirePressure;
             }
         }
+
         public static byte NumOfTires
         {
             get
@@ -22,7 +24,9 @@ namespace Ex03.GarageLogic
                 return k_NumOfTires;
             }
         }
+
         private bool m_CooledTrunk;
+
         public string CooledTrunk
         {
             get
@@ -37,7 +41,9 @@ namespace Ex03.GarageLogic
                 }
             }
         }
+
         private float m_TrunkVolume;
+
         public float TrunkVolume
         {
             get
@@ -45,6 +51,7 @@ namespace Ex03.GarageLogic
                 return m_TrunkVolume;
             }
         }
+
         public Truck(bool i_CooledTrunk, float i_TrunkVolume, List<Tire> i_Tires, Powersource i_Powersource, string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
         {
             m_CooledTrunk = i_CooledTrunk;

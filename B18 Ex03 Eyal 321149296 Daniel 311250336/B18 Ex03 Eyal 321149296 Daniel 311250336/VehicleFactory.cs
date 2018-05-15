@@ -61,10 +61,11 @@ namespace Ex03.GarageLogic
                 tires = CreateTires(i_AirPressure, i_TireManufacturers, 12, 28f);
                 vehicleCreated = new Truck((bool)i_VehicleProperties[0], (float)i_VehicleProperties[1], tires, sourceOfPower, i_LicensePlate, i_ModelName);
             }
-
+     
             return vehicleCreated;
         }
-        public static List<Tire> CreateTires(List<float>i_AirPressure, List<string> i_TireManufacturers, int i_NumOfWheels, float i_MaxPressure)
+
+        public static List<Tire> CreateTires(List<float> i_AirPressure, List<string> i_TireManufacturers, int i_NumOfWheels, float i_MaxPressure)
         {
             List<Tire> tires = new List<Tire>(i_NumOfWheels);
 

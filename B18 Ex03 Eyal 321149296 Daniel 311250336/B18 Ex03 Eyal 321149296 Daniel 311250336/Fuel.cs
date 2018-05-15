@@ -28,6 +28,7 @@ namespace Ex03.GarageLogic
         {
             r_FuelType = i_FuelType;
         }
+
         public void FillFuel(eFuelType i_FuelType, float i_HowMuchToFill)
         {
             if (i_FuelType != r_FuelType)
@@ -38,13 +39,11 @@ namespace Ex03.GarageLogic
 
             if (this.m_CurrentState + i_HowMuchToFill > this.r_MaxCapacity)
             {
-                ValueOutOfRangeException valueOutOfRange = new ValueOutOfRangeException(this.r_MaxCapacity-this.m_CurrentState,0f);
+                ValueOutOfRangeException valueOutOfRange = new ValueOutOfRangeException(this.r_MaxCapacity - this.m_CurrentState, 0f);
                 throw valueOutOfRange;
             }
 
-            this.m_CurrentState += i_HowMuchToFill;
-
-            
+            this.m_CurrentState += i_HowMuchToFill;  
         }
     }
 }

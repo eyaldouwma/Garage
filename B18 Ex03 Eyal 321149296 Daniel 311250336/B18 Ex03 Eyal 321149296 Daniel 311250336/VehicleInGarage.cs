@@ -14,18 +14,22 @@ namespace Ex03.GarageLogic
         }
 
         private eVehicleStatus m_VehicleStatus = eVehicleStatus.InProgress;
+
         public eVehicleStatus VehicleStatus
         {
             get
             {
                 return m_VehicleStatus;
             }
+
             set
             {
                 m_VehicleStatus = value;
             }
         }
+
         private Vehicle m_TheVehicle;
+
         public Vehicle TheVehicle
         {
             get
@@ -33,7 +37,9 @@ namespace Ex03.GarageLogic
                 return m_TheVehicle;
             }
         }
+
         private readonly string r_OwnerName;
+
         public string OwnerName
         {
             get
@@ -41,7 +47,9 @@ namespace Ex03.GarageLogic
                 return r_OwnerName;
             }
         }
+
         private string m_OwnerPhoneNumber;
+
         public string OwnerPhoneNumber
         {
             get
@@ -61,6 +69,5 @@ namespace Ex03.GarageLogic
             m_OwnerPhoneNumber = i_OwnerPhoneNumber;
             m_TheVehicle = i_TheVehicle;
         }
-
     }
 }

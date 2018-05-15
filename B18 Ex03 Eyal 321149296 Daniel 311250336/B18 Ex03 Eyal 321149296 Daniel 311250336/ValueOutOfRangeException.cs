@@ -11,8 +11,8 @@ namespace Ex03.GarageLogic
 
         public ValueOutOfRangeException()
         {
-
         }
+
         public ValueOutOfRangeException(float i_MaxValue, float i_MinValue)
         {
             m_MaxValue = i_MaxValue;

@@ -24,6 +24,7 @@ namespace Ex03.GarageLogic
                 return k_MaxTirePressure;
             }
         }
+
         public enum eMotorcycleLicenseType
         {
             A,
@@ -33,6 +34,7 @@ namespace Ex03.GarageLogic
         }
 
         private readonly eMotorcycleLicenseType r_MotorcycleLicense;
+
         public string MotorcycleLicense
         {
             get
@@ -40,7 +42,9 @@ namespace Ex03.GarageLogic
                 return Enum.GetName(typeof(eMotorcycleLicenseType), r_MotorcycleLicense);
             }
         }
+
         private readonly int r_EngineVolume;
+
         public int EngineVolume
         {
             get
@@ -49,13 +53,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType ,List<Tire> i_Tires ,Powersource i_Powersource, string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
+        public Motorcycle(int i_EngineVolume, eMotorcycleLicenseType i_LicenseType, List<Tire> i_Tires, Powersource i_Powersource, string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
         {
             m_Powersource = i_Powersource;
             m_Tires = i_Tires;
             r_EngineVolume = i_EngineVolume;
             r_MotorcycleLicense = i_LicenseType;
         }
-
     }
 }

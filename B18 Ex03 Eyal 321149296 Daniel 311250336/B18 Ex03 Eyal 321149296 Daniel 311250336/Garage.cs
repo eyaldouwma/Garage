@@ -12,6 +12,7 @@ namespace Ex03.GarageLogic
         {
             m_VehiclesInGarage.Add(i_VehicleToAdd.TheVehicle.LicensePlate, i_VehicleToAdd);
         }
+
         public VehicleInGarage GetVehicleByLicensePlate(string i_LicensePlate)
         {
             VehicleInGarage TheVehicle = null;
@@ -20,6 +21,7 @@ namespace Ex03.GarageLogic
 
             return TheVehicle;
         }
+
         public bool CheckIfVehicleExists(string i_LicensePlate)
         {
             bool exists = false;
@@ -33,7 +35,7 @@ namespace Ex03.GarageLogic
         {
             List<VehicleInGarage> vehiclesSorted = new List<VehicleInGarage>();
 
-            foreach (VehicleInGarage v  in m_VehiclesInGarage.Values)
+            foreach (VehicleInGarage v in m_VehiclesInGarage.Values)
             {
                 if ((v.VehicleStatus == i_VehicleStatusToPrint) || (i_PrintAll == true))
                 {

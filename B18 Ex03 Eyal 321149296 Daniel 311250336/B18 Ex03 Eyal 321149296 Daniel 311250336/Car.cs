@@ -42,6 +42,7 @@ namespace Ex03.GarageLogic
         }
         
         private readonly eCarDoors r_NumOfDoors;
+
         public string NumOfDoors
         {
             get
@@ -49,7 +50,9 @@ namespace Ex03.GarageLogic
                 return Enum.GetName(typeof(eCarDoors), r_NumOfDoors);
             }
         }
+
         private eCarColor m_CarColor;
+
         public string CarColor
         {
             get
@@ -58,14 +61,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Car(eCarColor i_CarColor, eCarDoors i_NumOfDoors , List<Tire> i_Tires , Powersource i_Powersource,
-            string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
+        public Car(eCarColor i_CarColor, eCarDoors i_NumOfDoors, List<Tire> i_Tires, Powersource i_Powersource, string i_LicensePlate, string i_ModelName) : base(i_LicensePlate, i_ModelName)
         {
             m_Tires = i_Tires;
             m_Powersource = i_Powersource;
             m_CarColor = i_CarColor;
             r_NumOfDoors = i_NumOfDoors;
         }
-
     }
 }
