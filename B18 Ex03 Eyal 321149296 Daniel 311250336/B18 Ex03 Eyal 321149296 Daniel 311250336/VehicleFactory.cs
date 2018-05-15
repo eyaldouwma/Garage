@@ -16,6 +16,8 @@ namespace Ex03.GarageLogic
         }
 
         private const uint k_NumberOfSupportedVehicles = 3;
+        private const int k_FirstVehicleProperty = 0;
+        private const int k_SecondVehicleProperty = 1;
 
         public static uint NumberOfSupportedVehicles
         {
@@ -33,33 +35,33 @@ namespace Ex03.GarageLogic
 
             if (i_VehicleType == eVehicleType.ElectricCar)
             {
-                sourceOfPower = new Battery(3.2f);
-                tires = CreateTires(i_AirPressure, i_TireManufacturers, 4, 32f);
-                vehicleCreated = new Car((Car.eCarColor)i_VehicleProperties[0], (Car.eCarDoors)i_VehicleProperties[1], tires, sourceOfPower, i_LicensePlate, i_ModelName);
+                sourceOfPower = new Battery(Car.MaxBatteryCharge);
+                tires = CreateTires(i_AirPressure, i_TireManufacturers, Car.NumOfTires, Car.MaxTirePressure);
+                vehicleCreated = new Car((Car.eCarColor)i_VehicleProperties[k_FirstVehicleProperty], (Car.eCarDoors)i_VehicleProperties[k_SecondVehicleProperty], tires, sourceOfPower, i_LicensePlate, i_ModelName);
             }
             else if (i_VehicleType == eVehicleType.ElectricMotorcycle)
             {
-                sourceOfPower = new Battery(1.8f);
-                tires = CreateTires(i_AirPressure, i_TireManufacturers, 2, 30f);
-                vehicleCreated = new Motorcycle((int)i_VehicleProperties[0], (Motorcycle.eMotorcycleLicenseType)i_VehicleProperties[1], tires, sourceOfPower, i_LicensePlate, i_ModelName);
+                sourceOfPower = new Battery(Motorcycle.MaxBatteryCharge);
+                tires = CreateTires(i_AirPressure, i_TireManufacturers, Motorcycle.NumOfTires, Motorcycle.MaxTirePressure);
+                vehicleCreated = new Motorcycle((int)i_VehicleProperties[k_FirstVehicleProperty], (Motorcycle.eMotorcycleLicenseType)i_VehicleProperties[k_SecondVehicleProperty], tires, sourceOfPower, i_LicensePlate, i_ModelName);
             }
             else if (i_VehicleType == eVehicleType.FueledCar)
             {
-                sourceOfPower = new Fuel(45f, Fuel.eFuelType.Octan98);
-                tires = CreateTires(i_AirPressure, i_TireManufacturers, 4, 32f);
-                vehicleCreated = new Car((Car.eCarColor)i_VehicleProperties[0], (Car.eCarDoors)i_VehicleProperties[1], tires, sourceOfPower, i_LicensePlate, i_ModelName);
+                sourceOfPower = new Fuel(Car.MaxFuelTankSize, Fuel.eFuelType.Octan98);
+                tires = CreateTires(i_AirPressure, i_TireManufacturers, Car.NumOfTires, Car.MaxTirePressure);
+                vehicleCreated = new Car((Car.eCarColor)i_VehicleProperties[k_FirstVehicleProperty], (Car.eCarDoors)i_VehicleProperties[k_SecondVehicleProperty], tires, sourceOfPower, i_LicensePlate, i_ModelName);
             }
             else if (i_VehicleType == eVehicleType.FueledMotorcycle)
             {
-                sourceOfPower = new Fuel(6f, Fuel.eFuelType.Octan96);
-                tires = CreateTires(i_AirPressure, i_TireManufacturers, 2, 30f);
-                vehicleCreated = new Motorcycle((int)i_VehicleProperties[0], (Motorcycle.eMotorcycleLicenseType)i_VehicleProperties[1], tires, sourceOfPower, i_LicensePlate, i_ModelName);
+                sourceOfPower = new Fuel(Motorcycle.MaxFuelTankSize, Fuel.eFuelType.Octan96);
+                tires = CreateTires(i_AirPressure, i_TireManufacturers, Motorcycle.NumOfTires, Motorcycle.MaxTirePressure);
+                vehicleCreated = new Motorcycle((int)i_VehicleProperties[k_FirstVehicleProperty], (Motorcycle.eMotorcycleLicenseType)i_VehicleProperties[k_SecondVehicleProperty], tires, sourceOfPower, i_LicensePlate, i_ModelName);
             }
             else if (i_VehicleType == eVehicleType.Truck)
             {
-                sourceOfPower = new Fuel(115f, Fuel.eFuelType.Soler);
-                tires = CreateTires(i_AirPressure, i_TireManufacturers, 12, 28f);
-                vehicleCreated = new Truck((bool)i_VehicleProperties[0], (float)i_VehicleProperties[1], tires, sourceOfPower, i_LicensePlate, i_ModelName);
+                sourceOfPower = new Fuel(Truck.MaxFuelTankSize, Fuel.eFuelType.Soler);
+                tires = CreateTires(i_AirPressure, i_TireManufacturers, Truck.NumOfTires, Truck.MaxTirePressure);
+                vehicleCreated = new Truck((bool)i_VehicleProperties[k_FirstVehicleProperty], (float)i_VehicleProperties[k_SecondVehicleProperty], tires, sourceOfPower, i_LicensePlate, i_ModelName);
             }
      
             return vehicleCreated;

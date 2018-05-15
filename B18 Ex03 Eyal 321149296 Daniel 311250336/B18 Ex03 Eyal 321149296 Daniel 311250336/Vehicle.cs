@@ -6,6 +6,9 @@ namespace Ex03.GarageLogic
 {
     public class Vehicle
     {
+        private const int k_FirstPowerSourceProperty = 0;
+        private const int k_SecondPowerSourceProperty = 1;
+
         public enum ePowersource
         {
             Battery,
@@ -71,11 +74,11 @@ namespace Ex03.GarageLogic
         {
             if (this.m_Powersource is Battery)
             {
-                ((Battery)m_Powersource).ChargeBattery((float)i_ChargeData[0]);
+                ((Battery)m_Powersource).ChargeBattery((float)i_ChargeData[k_FirstPowerSourceProperty]);
             }
             else if (this.m_Powersource is Fuel)
             {
-                ((Fuel)m_Powersource).FillFuel((Fuel.eFuelType)i_ChargeData[1], (float)i_ChargeData[0]);
+                ((Fuel)m_Powersource).FillFuel((Fuel.eFuelType)i_ChargeData[k_SecondPowerSourceProperty], (float)i_ChargeData[k_FirstPowerSourceProperty]);
             }
 
             m_EnergyMeterPrecentage = m_Powersource.CurrentState / m_Powersource.MaxCapacity;

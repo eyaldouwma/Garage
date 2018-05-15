@@ -8,6 +8,24 @@ namespace Ex03.GarageLogic
     {
         private const byte k_NumOfTires = 2;
         private const float k_MaxTirePressure = 30f;
+        private const float k_MaxBatteryCharge = 1.8f;
+        private const float k_MaxFuelTankSize = 6f;
+
+        public static float MaxBatteryCharge
+        {
+            get
+            {
+                return k_MaxBatteryCharge;
+            }
+        }
+
+        public static float MaxFuelTankSize
+        {
+            get
+            {
+                return k_MaxFuelTankSize;
+            }
+        }
 
         public static byte NumOfTires
         {
